@@ -8,5 +8,5 @@ void printArray(torch::Tensor input) {
 }
 
 PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
-    m.def("print_array", &printArray, "");
+    m.def("print_array", &printArray, "test print array");
 }

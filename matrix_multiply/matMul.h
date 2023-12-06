@@ -6,6 +6,7 @@
 // CUDA runtime
 #include <cuda_profiler_api.h>
 #include <cuda_runtime.h>
+#include <cublas_v2.h>
 
 #if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64)
 #define STRCASECMP _stricmp
@@ -14,6 +15,15 @@
 #define STRCASECMP strcasecmp
 #define STRNCASECMP strncasecmp
 #endif
+
+inline void checkCublas(cublasStatus_t result, char const *const func, const char *const file, int const line) {
+    if (result != CUBLAS_STATUS_SUCCESS) {
+        fprintf(stderr, "CUBLAS error at %s:%d code=%d \"%s\" \n", file, line, result, func);
+        exit(EXIT_FAILURE);
+    }
+}
+#define checkCublasErrors(val) checkCublas((val), #val, __FILE__, __LINE__)
+
 
 template <typename T> void check(T result, char const *const func, const char *const file, int const line)
 {
